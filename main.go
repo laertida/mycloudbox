@@ -2,27 +2,15 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"github.com/laertida/mycloudbox/endpoints"
 	"log"
-	"os"
 )
 
 func main() {
 	configFile := flag.String("config", "./my-cloud-box.yaml", "configuration file")
-	loadConfig(configFile)
+	flag.Parse()
+	log.Println("started process with configFile", *configFile)
 
-}
-
-func loadConfig(configFile string) {
-	_, err := os.Stat(configFile)
-	if err != nil {
-		fmt.Printf("Configuration file with name %s does not exits.\n", configFile)
-		log.Fatal(err)
-	}
-
-	configFile, error := os.ReadFile(configFile)
-
-	if error != nil {
-		log.Printf("There was an error reading, config file: %v", error)
-	}
+	fileEndpoint := endpoints.File{Path: "./", Protocol: "file", Properties: "?test=true"}
+	fileEndpoint.Log()
 }
